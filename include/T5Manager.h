@@ -1,14 +1,15 @@
 #pragma once
+#include "ModelManager.h"
 #include <onnxruntime_cxx_api.h>
 #include <sentencepiece_processor.h>
 
 
-class AIManager {
+class T5Manager : public ModelManager {
 public:
-	AIManager();
+	T5Manager(bool useCuda = false);
         
-    bool Load();
-    void Run();
+    virtual bool Load() override;
+    virtual void Run() override;
 
 
 private:

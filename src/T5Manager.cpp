@@ -1,17 +1,18 @@
-#include "AIManager.h"
+#include "T5Manager.h"
 
 #include <onnxruntime_cxx_api.h>
 #include <sentencepiece_processor.h>
 #include <chrono>
 #include <iostream>
 
-AIManager::AIManager(){}
+T5Manager::T5Manager(bool useCuda) : ModelManager(useCuda) {}
 
-bool AIManager::Load()
+bool T5Manager::Load()
 {
+	ModelManager::Load();
 	const auto start{std::chrono::steady_clock::now()};
 	
-	const auto status = sp.Load("./ressources/spiece.model");
+	const auto status = sp.Load("./ressources/t5_base/spiece.model");
 	if (!status.ok()) {
 		std::cerr << status.ToString() << std::endl;
 		return false;
@@ -33,8 +34,8 @@ bool AIManager::Load()
 	
 	try{
 		// Model path is const wchar_t*
-		encoder_session = Ort::Session(env, L"./ressources/t5-encoder-12.onnx", sessionOptions);
-		decoder_session = Ort::Session(env, L"./ressources/t5-decoder-with-lm-head-12.onnx", sessionOptions);
+		encoder_session = Ort::Session(env, L"./ressources/t5_base/t5-encoder-12.onnx", sessionOptions);
+		decoder_session = Ort::Session(env, L"./ressources/t5_base/t5-decoder-with-lm-head-12.onnx", sessionOptions);
 		//std::cout << "Nombre d'entrées: " << encoder_session.GetInputCount() << std::endl;
 		//std::cout << "Nombre d'entrées: " << decoder_session.GetInputCount() << std::endl;
 	}
@@ -60,11 +61,11 @@ bool AIManager::Load()
 	return true;
 }
 
-void AIManager::Run()
+void T5Manager::Run()
 {
 	const auto startInference{std::chrono::steady_clock::now()};
 	
-	std::string input_text = "translate English to Romanian: Taco Bell said it plans to add 2,000 locations in the US by 2022.";
+	std::string input_text = "translate English to German: I am a pretty potato!";
 	
 	std::vector<int> ids = sp.EncodeAsIds(input_text);
 	std::vector<int64_t> input_ids(ids.begin(), ids.end());
