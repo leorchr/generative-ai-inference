@@ -67,7 +67,7 @@ bool M2M100Manager::Load()
 	return true;
 }
 
-void M2M100Manager::Run()
+void M2M100Manager::Run(std::string inputText)
 {
 	const auto startInference{std::chrono::steady_clock::now()};
 	

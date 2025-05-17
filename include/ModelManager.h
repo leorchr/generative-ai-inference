@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 class ModelManager
 {
@@ -7,7 +8,7 @@ public:
 	virtual ~ModelManager() = default;
 	
 	virtual bool Load() = 0;
-	virtual void Run() = 0;
+	virtual void Run(std::string inputText) = 0;
 	static void LoadCuda();
 
 private:

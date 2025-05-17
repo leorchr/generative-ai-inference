@@ -56,17 +56,18 @@ bool T5Manager::Load()
 	const auto end{std::chrono::steady_clock::now()};
 	
 	const std::chrono::duration<float> elapsedSeconds{end - start};
-	std::cout << "Load time: " << elapsedSeconds.count() << "s\n";
+	std::cout << "\nThis models shows a translation from english to german." << std::endl;
+	std::cout << "Load time: " << elapsedSeconds.count() << "s\n\n";
 
 	return true;
 }
 
-void T5Manager::Run()
+void T5Manager::Run(std::string inputText)
 {
 	const auto startInference{std::chrono::steady_clock::now()};
 	
-	std::string input_text = "translate English to German: I am a pretty potato!";
-	
+	std::string input_text = "translate English to German: " + inputText;
+
 	std::vector<int> ids = sp.EncodeAsIds(input_text);
 	std::vector<int64_t> input_ids(ids.begin(), ids.end());
 
@@ -172,5 +173,5 @@ void T5Manager::Run()
 	
     // ----- Partie 5 : Détokénisation de la sortie -----
     std::string output_text = sp.DecodeIds(generated_token_ids);
-    std::cout << "Texte généré: " << output_text << std::endl;
+    std::cout << "Generated Text : " << output_text << std::endl;
 }

@@ -12,7 +12,7 @@ public:
 	std::vector<std::string> GetInputNames(Ort::Session* session, int inputCount, Ort::AllocatorWithDefaultOptions allocator);
 	std::vector<std::string> GetOutputNames(Ort::Session* session, int outputCount, Ort::AllocatorWithDefaultOptions allocator);
 	int64_t GetNextToken(Ort::Value& logitTensor);
-    virtual void Run() override;
+    virtual void Run(std::string inputText) override;
 
 
 private:

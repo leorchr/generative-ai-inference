@@ -9,7 +9,7 @@ public:
 	T5Manager(bool useCuda = false);
         
     virtual bool Load() override;
-    virtual void Run() override;
+    virtual void Run(std::string inputText) override;
 
 
 private:
